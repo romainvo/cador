@@ -21,6 +21,7 @@ count_poste = pd.DataFrame(dtype='int64')
 for agent in planning.columns:
     count_poste.loc[:, agent] = planning[agent].value_counts()
 count_poste.sort_index(inplace=True)
+#count_poste.loc[:,[1,2,3,4,5,6,7,8,9]].mean(axis=1)
 
 contraintes = pd.read_csv('contraintes.txt', header='infer',
                           index_col=['agent','contrainte','jour'])
