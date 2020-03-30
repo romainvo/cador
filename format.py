@@ -40,9 +40,9 @@ count_agents_violees = temp.groupby(by='agent', axis=0).sum()
 temp = contraintes_semaine.droplevel(level=[1,2], axis=0).groupby(by='agent', axis=0)
 count_agents_violees += temp.sum()
 
-temp = contraintes.droplevel(level=2, axis=0)
-count_mix_viols = temp.groupby(by=['agent','contrainte'], axis=0).sum()
-count_mix_viols = count_mix_viols.unstack(level='agent')
-count_mix_viols= count_mix_viols.droplevel(level=0, axis=1)
-count_mix_viols.loc[:, 'total'] = count_contraintes_violees.values
-count_mix_viols.loc['total'] = list(count_mix_viols.sum(axis=0).values)
+#temp = contraintes.droplevel(level=2, axis=0)
+#count_mix_viols = temp.groupby(by=['agent','contrainte'], axis=0).sum()
+#count_mix_viols = count_mix_viols.unstack(level='agent')
+#count_mix_viols= count_mix_viols.droplevel(level=0, axis=1)
+#count_mix_viols.loc[:, 'total'] = count_contraintes_violees.values
+#count_mix_viols.loc['total'] = list(count_mix_viols.sum(axis=0).values)
