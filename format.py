@@ -6,6 +6,7 @@ Created on Wed Mar 11 14:58:13 2020
 """
 
 import pandas as pd
+import numpy as np
 
 #On met en forme le planning 
 planning = pd.read_csv('planning.txt', header='infer',
@@ -38,12 +39,16 @@ count_contraintes_violees = temp.groupby(by='contrainte', axis=0).sum()
 temp = contraintes_semaine.droplevel(level=[0,2], axis=0)
 temp = temp.groupby(by='contrainte', axis=0).sum()
 count_contraintes_violees = count_contraintes_violees.append(temp)
+count_contraintes_violees.loc[:, 'poids%'] \
+= np.round(count_contraintes_violees.poids / count_contraintes_violees.poids.sum(), 3)
 count_contraintes_violees.sort_values(by='contrainte', inplace=True)
 
 temp = contraintes.droplevel(level=[1,2], axis=0)
 count_agents_violees = temp.groupby(by='agent', axis=0).sum()
 temp = contraintes_semaine.droplevel(level=[1,2], axis=0).groupby(by='agent', axis=0)
 count_agents_violees += temp.sum()
+count_agents_violees.loc[:, 'poids%'] \
+= np.round(count_agents_violees.poids / count_agents_violees.poids.sum(), 3)
 
 #temp = contraintes.droplevel(level=2, axis=0)
 #count_mix_viols = temp.groupby(by=['agent','contrainte'], axis=0).sum()
