@@ -24,15 +24,20 @@ count_poste.sort_index(inplace=True)
 #count_poste.loc[:,[1,2,3,4,5,6,7,8]].mean(axis=1)
 
 contraintes = pd.read_csv('contraintes.txt', header='infer',
-                          index_col=['agent','contrainte','jour'])
+                          index_col=['agent','contrainte','jour'],
+                          dtype={'poids':pd.Int64Dtype()})
+contraintes.loc[contraintes.value == 0, 'poids'] = 0
 contraintes_semaine = pd.read_csv('contraintes_semaine.txt', header='infer',
-                                  index_col=['agent','contrainte','semaine'])
+                                  index_col=['agent','contrainte','semaine'],
+                                  dtype={'poids':pd.Int64Dtype()})
+contraintes_semaine.loc[contraintes_semaine.value == 0, 'poids'] = 0
 
 temp = contraintes.droplevel(level=[0,2], axis=0)
 count_contraintes_violees = temp.groupby(by='contrainte', axis=0).sum()
-temp =\
-contraintes_semaine.droplevel(level=[0,2], axis=0).groupby(by='contrainte', axis=0)
-count_contraintes_violees = count_contraintes_violees.append(temp.sum())
+
+temp = contraintes_semaine.droplevel(level=[0,2], axis=0)
+temp = temp.groupby(by='contrainte', axis=0).sum()
+count_contraintes_violees = count_contraintes_violees.append(temp)
 count_contraintes_violees.sort_values(by='contrainte', inplace=True)
 
 temp = contraintes.droplevel(level=[1,2], axis=0)
